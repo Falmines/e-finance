@@ -106,61 +106,51 @@ async function loadMonthlyChart() {
 }
 
 /* ================= INCOME ================= */
-
 async function loadIncomes() {
   const table = document.getElementById("incomeTable");
   if (!table) return;
 
-  const data = await fetch(`${API}/incomes`).then(res => res.json());
+  try {
+    const res = await fetch(`${API}/incomes`);
+    const data = await res.json();
 
-  table.innerHTML = data.map(item => `
-    <tr>
-      <td>${item.title}</td>
-      <td>${item.category}</td>
-      <td>${rupiah(item.amount)}</td>
-      <td>${item.date.split("T")[0]}</td>
-      <td>
-        <button class="action-btn edit-btn" onclick='editIncome(${JSON.stringify(item)})'>Edit</button>
-        <button class="action-btn delete-btn" onclick="deleteIncome(${item.id})">Hapus</button>
-      </td>
-    </tr>
-  `).join("");
-}
+    if (!res.ok || !Array.isArray(data)) {
+      console.error("ERROR API INCOMES:", data);
 
-const incomeForm = document.getElementById("incomeForm");
-
-if (incomeForm) {
-  incomeForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const id = document.getElementById("incomeId").value;
-
-    const data = {
-      title: document.getElementById("incomeTitle").value,
-      category: document.getElementById("incomeCategory").value,
-      amount: document.getElementById("incomeAmount").value,
-      date: document.getElementById("incomeDate").value,
-      note: document.getElementById("incomeNote").value
-    };
-
-    if (id) {
-      await fetch(`${API}/incomes/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-    } else {
-      await fetch(`${API}/incomes`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
+      table.innerHTML = `
+        <tr>
+          <td colspan="5" style="color:red;font-weight:700;">
+            Gagal mengambil data pendapatan: ${data.error || data.message || "Database error"}
+          </td>
+        </tr>
+      `;
+      return;
     }
 
-    incomeForm.reset();
-    document.getElementById("incomeId").value = "";
-    loadIncomes();
-  });
+    table.innerHTML = data.map(item => `
+      <tr>
+        <td>${item.title}</td>
+        <td>${item.category}</td>
+        <td>${rupiah(item.amount)}</td>
+        <td>${item.date.split("T")[0]}</td>
+        <td>
+          <button class="action-btn edit-btn" onclick='editIncome(${JSON.stringify(item)})'>Edit</button>
+          <button class="action-btn delete-btn" onclick="deleteIncome(${item.id})">Hapus</button>
+        </td>
+      </tr>
+    `).join("");
+
+  } catch (err) {
+    console.error("FETCH INCOMES ERROR:", err);
+
+    table.innerHTML = `
+      <tr>
+        <td colspan="5" style="color:red;font-weight:700;">
+          Gagal konek ke API. Pastikan server jalan di localhost:3000.
+        </td>
+      </tr>
+    `;
+  }
 }
 
 function editIncome(item) {
