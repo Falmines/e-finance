@@ -165,10 +165,6 @@ app.get("/api/chart/monthly", async (req, res) => {
   });
 });
 
-if (process.env.NODE_ENV !== "production") {
-  app.listen(3000, () => {
-    console.log("Server jalan di http://localhost:3000");
-  });
-}
-
 module.exports = app;
+
+
