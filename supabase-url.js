@@ -1,0 +1,1 @@
+module.exports = "postgresql://postgres:085891099220FN21@db.aclfmbvtwcrjedyqlsvc.supabase.co:5432/postgres";

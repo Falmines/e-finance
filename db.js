@@ -1,11 +1,8 @@
-require("dotenv").config();
-
 const { Pool } = require("pg");
-
-console.log("DB:", process.env.DATABASE_URL);
+const DATABASE_URL = require("./supabase-url");
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
