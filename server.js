@@ -8,6 +8,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+app.get("/income.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "income.html"));
+});
+
+app.get("/expense.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "expense.html"));
+});
 
 /* ================= INCOME CRUD ================= */
 

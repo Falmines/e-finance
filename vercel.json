@@ -1,35 +1,21 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "server.js",
-      "use": "@vercel/node"
+      "source": "/api/(.*)",
+      "destination": "/server.js"
     },
     {
-      "src": "public/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/server.js"
+      "source": "/income.html",
+      "destination": "/public/income.html"
     },
     {
-      "src": "/",
-      "dest": "/public/index.html"
+      "source": "/expense.html",
+      "destination": "/public/expense.html"
     },
     {
-      "src": "/income.html",
-      "dest": "/public/income.html"
-    },
-    {
-      "src": "/expense.html",
-      "dest": "/public/expense.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/public/$1"
+      "source": "/",
+      "destination": "/public/index.html"
     }
   ]
 }
