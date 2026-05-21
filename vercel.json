@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/income.html",
+      "destination": "/public/income.html"
+    },
+    {
+      "source": "/expense.html",
+      "destination": "/public/expense.html"
+    },
+    {
+      "source": "/",
+      "destination": "/public/index.html"
+    }
+  ]
+}
