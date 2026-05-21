@@ -17,6 +17,7 @@ async function loadDashboard() {
 
   document.getElementById("totalIncome").innerText = rupiah(summary.totalIncome);
   document.getElementById("totalExpense").innerText = rupiah(summary.totalExpense);
+  document.getElementById("balance").innerText = rupiah(summary.balance);
 
   const status = document.getElementById("financeStatus");
 
