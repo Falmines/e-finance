@@ -7,6 +7,21 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.get("/api/test-db", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW()");
+    res.json({
+      success: true,
+      time: result.rows[0]
+    });
+  } catch (err) {
+    console.error("DB TEST ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+});
 app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));

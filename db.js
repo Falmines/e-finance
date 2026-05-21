@@ -7,4 +7,8 @@ const pool = new Pool({
   }
 });
 
+pool.on("error", (err) => {
+  console.error("PostgreSQL error:", err);
+});
+
 module.exports = pool;
