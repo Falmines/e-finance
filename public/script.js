@@ -152,7 +152,47 @@ async function loadIncomes() {
     `;
   }
 }
+const incomeForm = document.getElementById("incomeForm");
 
+if (incomeForm) {
+  incomeForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const id = document.getElementById("incomeId").value;
+
+    const data = {
+      title: document.getElementById("incomeTitle").value,
+      category: document.getElementById("incomeCategory").value,
+      amount: Number(document.getElementById("incomeAmount").value),
+      date: document.getElementById("incomeDate").value,
+      note: document.getElementById("incomeNote").value
+    };
+
+    const url = id ? `${API}/incomes/${id}` : `${API}/incomes`;
+    const method = id ? "PUT" : "POST";
+
+    const res = await fetch(url, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      alert("Gagal simpan pendapatan: " + (result.error || result.message));
+      return;
+    }
+
+    alert("Pendapatan berhasil disimpan");
+
+    incomeForm.reset();
+    document.getElementById("incomeId").value = "";
+    loadIncomes();
+  });
+}
 function editIncome(item) {
   document.getElementById("incomeId").value = item.id;
   document.getElementById("incomeTitle").value = item.title;
