@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, "public")));
 
 /* TEST DATABASE */
 app.get("/api/test-db", async (req, res) => {
@@ -228,15 +228,15 @@ app.get("/api/chart/monthly", async (req, res) => {
 
 /* PAGE ROUTES */
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 app.get("/income.html", (req, res) => {
-  res.sendFile(__dirname + "/income.html");
+  res.sendFile(path.join(__dirname, "public", "income.html"));
 });
 
 app.get("/expense.html", (req, res) => {
-  res.sendFile(__dirname + "/expense.html");
+  res.sendFile(path.join(__dirname, "public", "expense.html"));
 });
 
 /* START SERVER */
