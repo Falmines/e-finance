@@ -2,8 +2,20 @@
   "version": 2,
   "rewrites": [
     {
-      "source": "/api/(.*)",
+      "source": "/api/:path*",
       "destination": "/api/index.js"
+    },
+    {
+      "source": "/",
+      "destination": "/public/index.html"
+    },
+    {
+      "source": "/income.html",
+      "destination": "/public/income.html"
+    },
+    {
+      "source": "/expense.html",
+      "destination": "/public/expense.html"
     }
   ]
 }
