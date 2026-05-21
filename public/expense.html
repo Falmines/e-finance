@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Pengeluaran</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <h2>E-Finance</h2>
+  <div>
+    <a href="index.html">Dashboard</a>
+    <a href="income.html">Pendapatan</a>
+    <a href="expense.html">Pengeluaran</a>
+  </div>
+</nav>
+
+<section class="container">
+  <h1>Data Pengeluaran</h1>
+
+  <form id="expenseForm" class="form-card">
+    <input type="hidden" id="expenseId">
+
+    <input type="text" id="expenseTitle" placeholder="Nama pengeluaran" required>
+
+    <select id="expenseCategory" required>
+      <option value="">Pilih kategori</option>
+      <option value="Makan">Makan</option>
+      <option value="Transportasi">Transportasi</option>
+      <option value="Belanja">Belanja</option>
+      <option value="Pendidikan">Pendidikan</option>
+      <option value="Hiburan">Hiburan</option>
+      <option value="Internet">Internet</option>
+      <option value="Tagihan">Tagihan</option>
+      <option value="Kesehatan">Kesehatan</option>
+      <option value="Lainnya">Lainnya</option>
+    </select>
+
+    <input type="number" id="expenseAmount" placeholder="Jumlah uang" required>
+    <input type="date" id="expenseDate" required>
+    <textarea id="expenseNote" placeholder="Catatan"></textarea>
+
+    <button type="submit">Simpan Pengeluaran</button>
+  </form>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Nama</th>
+          <th>Kategori</th>
+          <th>Jumlah</th>
+          <th>Tanggal</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="expenseTable"></tbody>
+    </table>
+  </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>

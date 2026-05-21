@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Pendapatan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <h2>E-Finance</h2>
+  <div>
+    <a href="index.html">Dashboard</a>
+    <a href="income.html">Pendapatan</a>
+    <a href="expense.html">Pengeluaran</a>
+  </div>
+</nav>
+
+<section class="container">
+  <h1>Data Pendapatan</h1>
+
+  <form id="incomeForm" class="form-card">
+    <input type="hidden" id="incomeId">
+
+    <input type="text" id="incomeTitle" placeholder="Nama pendapatan" required>
+
+    <select id="incomeCategory" required>
+      <option value="">Pilih kategori</option>
+      <option value="Gaji">Gaji</option>
+      <option value="Bisnis">Bisnis</option>
+      <option value="Uang Jajan">Uang Jajan</option>
+      <option value="Bonus">Bonus</option>
+      <option value="Investasi">Investasi</option>
+      <option value="Lainnya">Lainnya</option>
+    </select>
+
+    <input type="number" id="incomeAmount" placeholder="Jumlah uang" required>
+    <input type="date" id="incomeDate" required>
+    <textarea id="incomeNote" placeholder="Catatan"></textarea>
+
+    <button type="submit">Simpan Pendapatan</button>
+  </form>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Nama</th>
+          <th>Kategori</th>
+          <th>Jumlah</th>
+          <th>Tanggal</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="incomeTable"></tbody>
+    </table>
+  </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>

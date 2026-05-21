@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>E-Finance Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+  <h2>E-Finance</h2>
+  <div>
+    <a href="index.html">Dashboard</a>
+    <a href="income.html">Pendapatan</a>
+    <a href="expense.html">Pengeluaran</a>
+  </div>
+</nav>
+
+<section class="container">
+  <h1>Dashboard Keuangan</h1>
+
+  <div id="warningBox" class="warning hidden">
+    Pengeluaran sudah mencapai 70% dari pendapatan!
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Total Pendapatan</h3>
+      <p id="totalIncome">Rp 0</p>
+    </div>
+
+    <div class="card">
+      <h3>Total Pengeluaran</h3>
+      <p id="totalExpense">Rp 0</p>
+    </div>
+
+    <div class="card">
+      <h3>Saldo</h3>
+      <p id="balance">Rp 0</p>
+    </div>
+    
+      <div class="card">
+    <h3>Status Keuangan</h3>
+    <p id="financeStatus">Terkendali</p>
+  </div>
+  </div>
+
+  <div class="chart-box">
+    <h2>Grafik Pendapatan & Pengeluaran Setahun</h2>
+    <canvas id="yearlyChart"></canvas>
+  </div>
+
+  <div class="chart-box">
+    <h2>Grafik Pendapatan Bulan Ini</h2>
+    <canvas id="monthlyIncomeChart"></canvas>
+  </div>
+
+  <div class="chart-box">
+    <h2>Grafik Pengeluaran Bulan Ini</h2>
+    <canvas id="monthlyExpenseChart"></canvas>
+  </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background: #e0f7fa;
+  color: #063b46;
+}
+
+.navbar {
+  background: linear-gradient(135deg, #006d77, #00a8c6);
+  color: white;
+  padding: 18px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  box-shadow: 0 6px 18px rgba(0, 109, 119, 0.3);
+}
+
+.navbar h2 {
+  font-size: 24px;
+}
+
+.navbar div {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 35px auto;
+}
+
+h1 {
+  margin-bottom: 25px;
+  color: #006d77;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.card,
+.chart-box,
+.form-card {
+  background: white;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 8px 25px rgba(0, 109, 119, 0.15);
+}
+
+.card h3 {
+  color: #007f8f;
+  margin-bottom: 12px;
+}
+
+.card p {
+  font-size: 24px;
+  font-weight: 800;
+  color: #004d5a;
+}
+
+.chart-box {
+  margin-top: 25px;
+}
+
+.chart-box h2 {
+  font-size: 20px;
+  margin-bottom: 18px;
+  color: #006d77;
+}
+
+.warning {
+  background: #ffdddd;
+  color: #b00020;
+  padding: 15px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  border-left: 6px solid #b00020;
+}
+
+.hidden {
+  display: none;
+}
+
+.form-card {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 25px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #b2ebf2;
+  border-radius: 12px;
+  outline: none;
+  font-size: 15px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+button {
+  background: linear-gradient(135deg, #007f8f, #00a8c6);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0, 109, 119, 0.15);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+th,
+td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #d7f3f6;
+}
+
+th {
+  background: #006d77;
+  color: white;
+}
+
+.action-btn {
+  padding: 8px 12px;
+  margin: 3px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.delete-btn {
+  background: #d62828;
+}
+
+.edit-btn {
+  background: #0077b6;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    gap: 15px;
+  }
+
+  .navbar div {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    width: 94%;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  .card p {
+    font-size: 22px;
+  }
+}
