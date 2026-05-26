@@ -7,18 +7,17 @@ const rupiah = (number) => {
   }).format(number);
 };
 
-async function applyDashboardFilter() {
+window.applyDashboardFilter = async function () {
   const filterType = document.getElementById("filterType").value;
   const incomeCategory = document.getElementById("incomeCategoryFilter").value;
   const expenseCategory = document.getElementById("expenseCategoryFilter").value;
-  const period = document.getElementById("filterPeriod").value;
   const filterMonth = document.getElementById("filterMonth").value;
   const filterYear = document.getElementById("filterYear").value;
 
   let year = filterYear;
   let month = "";
 
-  if (period === "month" && filterMonth) {
+  if (filterMonth) {
     const parts = filterMonth.split("-");
     year = parts[0];
     month = parts[1];
@@ -28,51 +27,102 @@ async function applyDashboardFilter() {
     filterType,
     incomeCategory,
     expenseCategory,
-    period,
     year,
     month
   });
-const incomeTitle = document.getElementById("incomeCardTitle");
-const expenseTitle = document.getElementById("expenseCardTitle");
-const balanceTitle = document.getElementById("balanceCardTitle");
 
-if (filterType === "income" && incomeCategory !== "all") {
-  incomeTitle.innerText = `Saldo ${incomeCategory}`;
-  expenseTitle.innerText = "Pengeluaran";
-  balanceTitle.innerText = `Sisa Saldo ${incomeCategory}`;
-}
+  try {
+    const res = await fetch(`${API}/filter-summary?${query}`);
+    const summary = await res.json();
 
-else if (filterType === "expense" && expenseCategory !== "all") {
-  incomeTitle.innerText = "Pendapatan";
-  expenseTitle.innerText = `Saldo ${expenseCategory}`;
-  balanceTitle.innerText = `Sisa Setelah ${expenseCategory}`;
-}
+    if (!res.ok) {
+      alert("Filter gagal: " + (summary.error || summary.message));
+      return;
+    }
 
-else {
-  incomeTitle.innerText = "Total Pendapatan";
-  expenseTitle.innerText = "Total Pengeluaran";
-  balanceTitle.innerText = "Saldo";
-}
+    document.getElementById("totalIncome").innerText = rupiah(summary.totalIncome);
+    document.getElementById("totalExpense").innerText = rupiah(summary.totalExpense);
+    document.getElementById("balance").innerText = rupiah(summary.balance);
+    loadFilteredChart(summary);
 
-  const summary = await fetch(`${API}/filter-summary?${query}`).then(res => res.json());
+    const status = document.getElementById("financeStatus");
 
-  document.getElementById("totalIncome").innerText = rupiah(summary.totalIncome);
-  document.getElementById("totalExpense").innerText = rupiah(summary.totalExpense);
-  document.getElementById("balance").innerText = rupiah(summary.balance);
+    if (summary.percent >= 70) {
+      status.innerText = "Boros";
+      status.classList.add("status-boros");
+      status.classList.remove("status-terkendali");
+      document.getElementById("warningBox").classList.remove("hidden");
+    } else {
+      status.innerText = "Terkendali";
+      status.classList.add("status-terkendali");
+      status.classList.remove("status-boros");
+      document.getElementById("warningBox").classList.add("hidden");
+    }
 
-  const status = document.getElementById("financeStatus");
+    const incomeTitle = document.getElementById("incomeCardTitle");
+    const expenseTitle = document.getElementById("expenseCardTitle");
+    const balanceTitle = document.getElementById("balanceCardTitle");
 
-  if (summary.percent >= 70) {
-    status.innerText = "Boros";
-    status.classList.add("status-boros");
-    status.classList.remove("status-terkendali");
-    document.getElementById("warningBox").classList.remove("hidden");
-  } else {
-    status.innerText = "Terkendali";
-    status.classList.add("status-terkendali");
-    status.classList.remove("status-boros");
-    document.getElementById("warningBox").classList.add("hidden");
+    if (filterType === "income" && incomeCategory !== "all") {
+      incomeTitle.innerText = `Saldo ${incomeCategory}`;
+      expenseTitle.innerText = "Pengeluaran";
+      balanceTitle.innerText = `Sisa Saldo ${incomeCategory}`;
+    } else if (filterType === "expense" && expenseCategory !== "all") {
+      incomeTitle.innerText = "Pendapatan";
+      expenseTitle.innerText = `Saldo ${expenseCategory}`;
+      balanceTitle.innerText = `Sisa Setelah ${expenseCategory}`;
+    } else {
+      incomeTitle.innerText = "Total Pendapatan";
+      expenseTitle.innerText = "Total Pengeluaran";
+      balanceTitle.innerText = "Saldo";
+    }
+
+  } catch (err) {
+    console.error("FILTER ERROR:", err);
+    alert("Filter gagal dijalankan");
   }
+};
+
+
+let filteredChartInstance = null;
+async function loadFilteredChart(summary) {
+
+  const ctx = document.getElementById("filteredChart");
+
+  if (!ctx) return;
+
+  if (filteredChartInstance) {
+    filteredChartInstance.destroy();
+  }
+
+  filteredChartInstance = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["Pendapatan", "Pengeluaran", "Saldo"],
+      datasets: [{
+        label: "Data Filter",
+        data: [
+          summary.totalIncome,
+          summary.totalExpense,
+          summary.balance
+        ],
+        backgroundColor: [
+          "#00b4d8",
+          "#ef233c",
+          "#2a9d8f"
+        ],
+        borderRadius: 12
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
 }
 
 /* ================= DASHBOARD ================= */
