@@ -32,6 +32,27 @@ async function applyDashboardFilter() {
     year,
     month
   });
+const incomeTitle = document.getElementById("incomeCardTitle");
+const expenseTitle = document.getElementById("expenseCardTitle");
+const balanceTitle = document.getElementById("balanceCardTitle");
+
+if (filterType === "income" && incomeCategory !== "all") {
+  incomeTitle.innerText = `Saldo ${incomeCategory}`;
+  expenseTitle.innerText = "Pengeluaran";
+  balanceTitle.innerText = `Sisa Saldo ${incomeCategory}`;
+}
+
+else if (filterType === "expense" && expenseCategory !== "all") {
+  incomeTitle.innerText = "Pendapatan";
+  expenseTitle.innerText = `Saldo ${expenseCategory}`;
+  balanceTitle.innerText = `Sisa Setelah ${expenseCategory}`;
+}
+
+else {
+  incomeTitle.innerText = "Total Pendapatan";
+  expenseTitle.innerText = "Total Pengeluaran";
+  balanceTitle.innerText = "Saldo";
+}
 
   const summary = await fetch(`${API}/filter-summary?${query}`).then(res => res.json());
 
