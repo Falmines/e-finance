@@ -7,6 +7,53 @@ const rupiah = (number) => {
   }).format(number);
 };
 
+async function applyDashboardFilter() {
+  const filterType = document.getElementById("filterType").value;
+  const incomeCategory = document.getElementById("incomeCategoryFilter").value;
+  const expenseCategory = document.getElementById("expenseCategoryFilter").value;
+  const period = document.getElementById("filterPeriod").value;
+  const filterMonth = document.getElementById("filterMonth").value;
+  const filterYear = document.getElementById("filterYear").value;
+
+  let year = filterYear;
+  let month = "";
+
+  if (period === "month" && filterMonth) {
+    const parts = filterMonth.split("-");
+    year = parts[0];
+    month = parts[1];
+  }
+
+  const query = new URLSearchParams({
+    filterType,
+    incomeCategory,
+    expenseCategory,
+    period,
+    year,
+    month
+  });
+
+  const summary = await fetch(`${API}/filter-summary?${query}`).then(res => res.json());
+
+  document.getElementById("totalIncome").innerText = rupiah(summary.totalIncome);
+  document.getElementById("totalExpense").innerText = rupiah(summary.totalExpense);
+  document.getElementById("balance").innerText = rupiah(summary.balance);
+
+  const status = document.getElementById("financeStatus");
+
+  if (summary.percent >= 70) {
+    status.innerText = "Boros";
+    status.classList.add("status-boros");
+    status.classList.remove("status-terkendali");
+    document.getElementById("warningBox").classList.remove("hidden");
+  } else {
+    status.innerText = "Terkendali";
+    status.classList.add("status-terkendali");
+    status.classList.remove("status-boros");
+    document.getElementById("warningBox").classList.add("hidden");
+  }
+}
+
 /* ================= DASHBOARD ================= */
 
 async function loadDashboard() {

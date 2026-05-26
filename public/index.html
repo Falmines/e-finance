@@ -47,6 +47,49 @@
   </div>
   </div>
 
+  <div class="filter-box">
+  <h2>Filter Grafik</h2>
+
+  <select id="filterType">
+    <option value="all">Semua</option>
+    <option value="income">Pendapatan</option>
+    <option value="expense">Pengeluaran</option>
+  </select>
+
+  <select id="incomeCategoryFilter">
+    <option value="all">Semua Pendapatan</option>
+    <option value="Gaji">Gaji</option>
+    <option value="Bisnis">Bisnis</option>
+    <option value="Uang Jajan">Uang Jajan</option>
+    <option value="Bonus">Bonus</option>
+    <option value="Investasi">Investasi</option>
+    <option value="Lainnya">Lainnya</option>
+  </select>
+
+  <select id="expenseCategoryFilter">
+    <option value="all">Semua Pengeluaran</option>
+    <option value="Makan">Makan</option>
+    <option value="Transportasi">Transportasi</option>
+    <option value="Belanja">Belanja</option>
+    <option value="Pendidikan">Pendidikan</option>
+    <option value="Hiburan">Hiburan</option>
+    <option value="Internet">Internet</option>
+    <option value="Tagihan">Tagihan</option>
+    <option value="Kesehatan">Kesehatan</option>
+    <option value="Lainnya">Lainnya</option>
+  </select>
+
+  <select id="filterPeriod">
+    <option value="year">Tahunan</option>
+    <option value="month">Bulanan</option>
+  </select>
+
+  <input type="month" id="filterMonth">
+  <input type="number" id="filterYear" placeholder="Tahun" value="2026">
+
+  <button onclick="applyDashboardFilter()">Terapkan Filter</button>
+</div>
+
   <div class="chart-box">
     <h2>Grafik Pendapatan & Pengeluaran Setahun</h2>
     <canvas id="yearlyChart"></canvas>

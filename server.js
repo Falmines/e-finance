@@ -28,6 +28,67 @@ app.get("/api/test-db", async (req, res) => {
   }
 });
 
+app.get("/api/filter-summary", async (req, res) => {
+  try {
+    const { filterType, incomeCategory, expenseCategory, month, year } = req.query;
+
+    let incomeQuery = "SELECT COALESCE(SUM(amount),0) AS total FROM incomes WHERE 1=1";
+    let expenseQuery = "SELECT COALESCE(SUM(amount),0) AS total FROM expenses WHERE 1=1";
+
+    const incomeParams = [];
+    const expenseParams = [];
+
+    if (filterType !== "expense" && incomeCategory && incomeCategory !== "all") {
+      incomeParams.push(incomeCategory);
+      incomeQuery += ` AND category = $${incomeParams.length}`;
+    }
+
+    if (filterType !== "income" && expenseCategory && expenseCategory !== "all") {
+      expenseParams.push(expenseCategory);
+      expenseQuery += ` AND category = $${expenseParams.length}`;
+    }
+
+    if (month) {
+      incomeParams.push(month);
+      incomeQuery += ` AND EXTRACT(MONTH FROM date) = $${incomeParams.length}`;
+
+      expenseParams.push(month);
+      expenseQuery += ` AND EXTRACT(MONTH FROM date) = $${expenseParams.length}`;
+    }
+
+    if (year) {
+      incomeParams.push(year);
+      incomeQuery += ` AND EXTRACT(YEAR FROM date) = $${incomeParams.length}`;
+
+      expenseParams.push(year);
+      expenseQuery += ` AND EXTRACT(YEAR FROM date) = $${expenseParams.length}`;
+    }
+
+    const income = filterType === "expense"
+      ? { rows: [{ total: 0 }] }
+      : await pool.query(incomeQuery, incomeParams);
+
+    const expense = filterType === "income"
+      ? { rows: [{ total: 0 }] }
+      : await pool.query(expenseQuery, expenseParams);
+
+    const totalIncome = Number(income.rows[0].total);
+    const totalExpense = Number(expense.rows[0].total);
+    const balance = totalIncome - totalExpense;
+    const percent = totalIncome > 0 ? (totalExpense / totalIncome) * 100 : 0;
+
+    res.json({
+      totalIncome,
+      totalExpense,
+      balance,
+      percent,
+      warning: percent >= 70
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 /* INCOME */
 app.get("/api/incomes", async (req, res) => {
   try {
